@@ -27,6 +27,23 @@ public class User {
     public User() {
     }
 
+    public User(int id, String nom, String prenom,String email,  String avatar) {
+        this.id = id;
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.avatar = avatar;
+    }
+
+    public User(String nom , String prenom ,String email, String avatar) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.avatar = avatar;
+    }
+    
+    
+
     public User(int id, String username, String email, int enabled, Date last_login, String roles, String nom, String prenom, int tel, int level, int score, String avatar, String adresse) {
         this.id = id;
         this.username = username;
@@ -219,6 +236,11 @@ public class User {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", username=" + username + ", email=" + email + ", enabled=" + enabled + ", password=" + password + ", last_login=" + last_login + ", roles=" + roles + ", nom=" + nom + ", prenom=" + prenom + ", tel=" + tel + ", level=" + level + ", score=" + score + ", avatar=" + avatar + ", adresse=" + adresse + '}';
     }
     
     

@@ -18,6 +18,12 @@ public class Reponse {
     private int archive;
     private int nbsignal;
 
+    public Reponse(Sujet sujet, User user, String reponse_original) {
+        this.sujet = sujet;
+        this.user = user;
+        this.reponse_original = reponse_original;
+    }
+
     public Reponse(int id, Sujet sujet, User user, String reponse_original, String reponse_edited, Date date_roriginal, Date date_redited, int archive, int nbsignal) {
         this.id = id;
         this.sujet = sujet;

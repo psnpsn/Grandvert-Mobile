@@ -13,8 +13,10 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.Entite.Sujet;
 import com.mycompany.Entite.Task;
+import com.mycompany.Entite.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +29,7 @@ public class ServiceSujet {
     public void ajoutSujet(Sujet s) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
         //String Url = "http://localhost/symfony-api/web/app_dev.php/api/sujet/new?name="+ta.getNom()+"&status="+ta.getEtat();// création de l'URL
-        String Url = "http://localhost/symfony-api/web/app_dev.php/api/sujet/new?name=";// création de l'URL
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/ajouter?id_user="+s.getUser().getId()+"&id="+s.getPlante_id()+"&postoriginal="+s.getSujet_original();// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -55,7 +57,7 @@ public class ServiceSujet {
     public void supprimerSujet(Sujet s) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
         //String Url = "http://localhost/symfony-api/web/app_dev.php/api/sujet/new?name="+ta.getNom()+"&status="+ta.getEtat();// création de l'URL
-        String Url = "http://localhost/symfony-api/web/app_dev.php/api/sujet/new?name=";// création de l'URL
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forum/sujet/etat/archiver?id="+s.getId();// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -100,9 +102,29 @@ public class ServiceSujet {
                 Sujet e = new Sujet();
 
                 float id = Float.parseFloat(obj.get("id").toString());
-
+                float nbviews = Float.parseFloat(obj.get("nbviews").toString());
+                
+                Object user = obj.get("User");
+                String chaine = user.toString();
+                String user_id= chaine.substring(chaine.indexOf("id=")+3, chaine.indexOf(".0,"));
+                String user_nom= chaine.substring(chaine.indexOf("nom=")+4, chaine.indexOf(", ", chaine.indexOf("nom="))); 
+                String user_prenom= chaine.substring(chaine.indexOf("prenom=")+7, chaine.indexOf(", ", chaine.indexOf("prenom="))); 
+                String user_avatar= chaine.substring(chaine.indexOf("avatar=")+7, chaine.indexOf(", ", chaine.indexOf("avatar="))); 
+                String user_email= chaine.substring(chaine.indexOf("email=")+6, chaine.indexOf(", ", chaine.indexOf("email=")));                 
+                User u = new User(Integer.parseInt(user_id), user_nom, user_prenom, user_email, user_avatar);
                 e.setId((int) id);
-                e.setSujet_original(obj.get("sujet_original").toString());
+                e.setSujet_original(obj.get("sujetOriginal").toString());
+                //e.setDate_original(obj.get("dateOriginal"));
+                e.setOpen(obj.get("open").toString());
+                e.setNbviews((int) nbviews);
+                e.setResolu(obj.get("resolu").toString());
+                String archive = obj.get("archive").toString();
+                if ( archive.equals("false"))
+                    e.setArchive(0);
+                else
+                    e.setArchive(1);
+                
+                e.setUser(u);
                 System.out.println(e);
                 
                 listSujets.add(e);
@@ -126,9 +148,9 @@ public class ServiceSujet {
     ArrayList<Sujet> listSujet = new ArrayList<>();
     Sujet S = new Sujet();
     
-    public ArrayList<Sujet> getList(){       
+    public ArrayList<Sujet> getList(int plante_id){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/symfony-api/web/app_dev.php/api/sujet/all");  
+        con.setUrl("http://localhost/GrandVert/web/app_dev.php/forum/api/sujet/all/?id="+plante_id);  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -142,7 +164,7 @@ public class ServiceSujet {
     
     public Sujet getById(int id){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/symfony-api/web/app_dev.php/api/sujet/id="+id);  
+        con.setUrl("http://localhost/GrandVert/web/app_dev.php/forum/api/sujet/return/?id="+id);  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -153,5 +175,71 @@ public class ServiceSujet {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return S;
     }   
+    
+    public void signalerSujet(Sujet s) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forum/sujet/etat/signaler?id="+s.getId();// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    } 
+    
+    public void SetFermer(Sujet s , int id_user) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/etat/fermer?id_user="+id_user+"&id="+s.getId();// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    } 
+    
+    public void SetOuvert(Sujet s , int id_user) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/etat/ouvert?id_user="+id_user+"&id="+s.getId();// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+    
+    public void SetResolu(Sujet s , int id_user) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/etat/resolut?id_user="+id_user+"&id="+s.getId();// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }   
+    
+    public void SetNonResolu(Sujet s , int id_user) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        //String Url = "http://localhost/symfony-api/web/app_dev.php/api/sujet/new?name="+ta.getNom()+"&status="+ta.getEtat();// création de l'URL
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/etat/nonresolut?id_user="+id_user+"&id="+s.getId();// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    } 
+   
 }

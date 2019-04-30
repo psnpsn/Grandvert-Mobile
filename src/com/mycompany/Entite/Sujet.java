@@ -25,6 +25,12 @@ public class Sujet {
     public Sujet() {
     }
 
+    public Sujet(int plante_id, User user, String text) {
+        this.plante_id = plante_id;
+        this.user = user;
+        this.sujet_original = text;
+    }
+
     public int getId() {
         return id;
     }

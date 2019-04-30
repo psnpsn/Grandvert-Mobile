@@ -28,10 +28,22 @@ import java.util.Map;
  */
 public class ServiceReactionReponse {
 
-    public void ajoutTask(Reaction_Reponse rs) {
+    public void setLike(Reaction_Reponse rs , int id_sujet) {
         ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
-        //String Url = "http://localhost/symfony-api/web/app_dev.php/api/tasks/new?name="+ta.getNom()+"&status="+ta.getEtat();// création de l'URL
-        String Url = "http://localhost/symfony-api/web/app_dev.php/api/tasks/new?name=";// création de l'URL
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/reponse/like?id_reponse="+rs.getReponse().getId()+"&id_user="+rs.getUser().getId()+"&id_sujet="+id_sujet;// création de l'URL
+        con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
+
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());//Récupération de la réponse du serveur
+            System.out.println(str);//Affichage de la réponse serveur sur la console
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);// Ajout de notre demande de connexion à la file d'attente du NetworkManager
+    }
+    
+    public void setDisLike(Reaction_Reponse rs , int id_sujet) {
+        ConnectionRequest con = new ConnectionRequest();// création d'une nouvelle demande de connexion
+        String Url = "http://localhost/GrandVert/web/app_dev.php/forumapi/sujet/reponse/dislike?id_reponse="+rs.getReponse().getId()+"&id_user="+rs.getUser().getId()+"&id_sujet="+id_sujet;// création de l'URL
         con.setUrl(Url);// Insertion de l'URL de notre demande de connexion
 
         con.addResponseListener((e) -> {
@@ -75,10 +87,10 @@ public class ServiceReactionReponse {
                 //Création des tâches et récupération de leurs données
                 Reaction_Reponse e = new Reaction_Reponse();
 
-                float user_id = Float.parseFloat(obj.get("user_id").toString());
-                float reponse_id = Float.parseFloat(obj.get("reponse_id").toString());
+                //float user_id = Float.parseFloat(obj.get("User.id").toString());
+                //float Sujet_id = Float.parseFloat(obj.get("Sujet.id").toString());
 
-                e.setUser(new User());
+                e.setUser(new User((int) 3, "sdhj", "sdds", "dsdq", "like"));
                 e.setReponse(new Reponse());
                 e.setReaction(obj.get("reaction").toString());
                 System.out.println(e);
@@ -103,9 +115,9 @@ public class ServiceReactionReponse {
     
     ArrayList<Reaction_Reponse> listReaction_Reponses = new ArrayList<>();
     
-    public ArrayList<Reaction_Reponse> getList(){       
+    public ArrayList<Reaction_Reponse> getList(int id_reponse){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/symfony-api/web/app_dev.php/api/tasks/all");  
+        con.setUrl("http://localhost/GrandVert/web/app_dev.php/forum/api/reponse/allreaction/?id="+id_reponse);  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {

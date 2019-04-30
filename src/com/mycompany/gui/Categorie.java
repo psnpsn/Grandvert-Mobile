@@ -5,8 +5,11 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.MultiButton;
 import com.codename1.components.SpanLabel;
+import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
@@ -15,6 +18,8 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Service.ServiceTask;
+import java.io.IOException;
+import javafx.scene.control.ListView;
 
 /**
  *
@@ -27,24 +32,58 @@ public class Categorie {
   
     public Categorie() {
         
-        f = new Form("Catégorie", new BoxLayout(BoxLayout.Y_AXIS));
-                f.add(new Label("Fruit")).
-                    add(new Label("Herbre")).
-                    add(new Label("Fleur")).
-                    add(new Label("Légume"));
-                
+        f = new Form("Categorie" , new BorderLayout());
+        Container list = new Container(BoxLayout.y());
+        list.setScrollableY(true);
+        MultiButton Fruit = new MultiButton("Fruit");
+        Fruit.setTextLine2("");
+        
+        Fruit.addActionListener((evt) -> {
+            PlanteCategorie pc = new PlanteCategorie("Fruit");
+            pc.getF();
+            
+        });
+        MultiButton Herbre = new MultiButton("Herbre");
+        Herbre.setTextLine2("");
+        Herbre.addActionListener((evt) -> {
+            PlanteCategorie pc = new PlanteCategorie("Herbre");
+            pc.getF();
+        });
+        MultiButton Fleur = new MultiButton("Fleur");
+        Fleur.setTextLine2("");
+        Fleur.addActionListener((evt) -> {
+            PlanteCategorie pc = new PlanteCategorie("Fleur");
+            pc.getF();
+        });
+        MultiButton Legume = new MultiButton("Légume");
+        Legume.setTextLine2("");
+        Legume.addActionListener((evt) -> {
+            PlanteCategorie pc = new PlanteCategorie("Légume");
+            pc.getF();
+        });
+        list.add(Fruit);
+        list.add(Herbre);
+        list.add(Fleur);
+        list.add(Legume);
+        f.add(CENTER , list);
+        
                 Toolbar tb = f.getToolbar();
+                tb.addCommandToOverflowMenu("Déconnecter", null, (evt) -> {
+                HomeForm f =new HomeForm();
+                    f.getHi();
+                });
                 Image icon = null; 
                 Container topBar = BorderLayout.east(new Label(icon));
                 //topBar.add(BorderLayout.SOUTH, new Label("Grand Vert", "SidemenuTagline")); 
                 topBar.setUIID("SideCommand");
-                tb.addComponentToSideMenu(topBar);
 
-                tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {}); 
-                tb.addMaterialCommandToSideMenu("Site web", FontImage.MATERIAL_WEB, e -> {});
-                tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_LOCK, e -> {});
-                tb.addMaterialCommandToSideMenu("à propos", FontImage.MATERIAL_INFO, e -> {});                
-                
+        try {
+            tb.addCommandToLeftBar("", EncodedImage.create("/back.png"), (evt) -> {
+                HomeForm f =new HomeForm();
+                f.getHi();
+            });
+        } catch (IOException ex) {
+        }
                 f.show();
           
     }

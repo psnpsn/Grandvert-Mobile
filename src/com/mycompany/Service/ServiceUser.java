@@ -106,7 +106,6 @@ public class ServiceUser {
                 e.setNom(obj.get("nom").toString());
                 e.setPrenom(obj.get("prenom").toString());
                 e.setAvatar(obj.get("avatar").toString());
-                System.out.println(e);
                 
                 listUsers.add(e);
 
@@ -131,7 +130,7 @@ public class ServiceUser {
     
     public ArrayList<User> getList(){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/symfony-api/web/app_dev.php/api/user/all");  
+        con.setUrl("http://localhost/GrandVert/web/app_dev.php/forum/api/user/return/");  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -145,16 +144,17 @@ public class ServiceUser {
     
     public User getById(int id){       
         ConnectionRequest con = new ConnectionRequest();
-        con.setUrl("http://localhost/symfony-api/web/app_dev.php/api/user/id="+id);  
+        con.setUrl("http://localhost/GrandVert/web/app_dev.php/forum/api/user/return/?id="+id);  
         con.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 ServiceUser ser = new ServiceUser();
-                u = ser.parseListTaskJson(new String(con.getResponseData())).get(0);
+                listUser = ser.parseListTaskJson(new String(con.getResponseData()));
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
-        return u;
-    }   
+        return listUser.get(0);
+    }    
+   
 
 }

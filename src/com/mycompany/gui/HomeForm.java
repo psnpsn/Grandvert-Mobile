@@ -19,8 +19,11 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
+import com.mycompany.Entite.StageManager;
 import com.mycompany.Service.ServiceTask;
 import com.mycompany.Entite.Task;
+import com.mycompany.Entite.User;
+import com.mycompany.Service.ServiceUser;
 import java.io.IOException;
 
 /**
@@ -35,6 +38,8 @@ public class HomeForm {
     Button btnajout,btnaff;
 
     public HomeForm() {
+        StageManager sm = StageManager.getStageManager();
+        sm.setUser(new User(3 , "Khalid" , "Moderateur" ,"keeptoo@gmail.com", "user.jpeg"));
         /****************** Premier Interface : dashboard ******************/
         EncodedImage IconForum = null;
         EncodedImage IconPlante = null;
@@ -77,7 +82,10 @@ public class HomeForm {
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
 
-        tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {}); 
+        tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> {
+            HomeForm f =new HomeForm();
+            f.getHi();
+        }); 
         tb.addMaterialCommandToSideMenu("Site web", FontImage.MATERIAL_WEB, e -> {});
         tb.addMaterialCommandToSideMenu("Déconnecter", FontImage.MATERIAL_LOCK, e -> {});
         tb.addMaterialCommandToSideMenu("à propos", FontImage.MATERIAL_INFO, e -> {});
