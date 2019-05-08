@@ -5,6 +5,7 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
@@ -25,6 +26,8 @@ import com.mycompany.Entite.Task;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceUser;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -38,6 +41,7 @@ public class HomeForm {
     Button btnajout,btnaff;
 
     public HomeForm() {
+                                
         StageManager sm = StageManager.getStageManager();
         sm.setUser(new User(3 , "Khalid" , "Moderateur" ,"keeptoo@gmail.com", "user.jpeg"));
         /****************** Premier Interface : dashboard ******************/
@@ -108,5 +112,6 @@ public class HomeForm {
     public void setTnom(TextField tnom) {
         this.tnom = tnom;
     }
+
 
 }

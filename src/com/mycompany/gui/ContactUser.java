@@ -9,6 +9,7 @@ import com.codename1.components.MultiButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.messaging.Message;
+//import com.codename1.messaging.Message;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import static com.codename1.ui.Component.CENTER;
@@ -25,6 +26,7 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.Entite.Plante;
+import com.mycompany.Entite.SendGrid;
 import com.mycompany.Entite.Sujet;
 import com.mycompany.Entite.User;
 import com.mycompany.Service.ServiceTask;
@@ -48,15 +50,13 @@ public class ContactUser {
         Button btnenvoyer = new Button("Envoyer");
         btnenvoyer.addActionListener((evt) -> {
             if((Subject.getText().length()!=0) && (titre.getText().length()!=0) ){
-                Message m = new Message(titre.getText());
-                /*
-                try {
-                    Display.getInstance().sendSMS("+21653880881", "Hi rochdi it's me !!");
-                } catch (IOException ex) {
-                }
-                */
-                Display.getInstance().sendMessage(new String[] {"keeptooui@gmail.com"}, Subject.getText(), m);
-                ToastBar.showMessage("Le message a été envoyer avec succés", FontImage.MATERIAL_INFO);
+                
+                Message ms = new Message(Subject.getText());
+                Display.getInstance().sendMessage(new String[]{u.getEmail()}, Subject.getText(), ms);
+                SendGrid s = SendGrid.create("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");
+                
+                s.sendSync(u.getEmail(),"rachid.arafa@esprit.tn", titre.getText(), Subject.getText());
+                ToastBar.showMessage("L'email a été envoyer avec succés", FontImage.MATERIAL_INFO);
                 ContactUser cu = new ContactUser(u , sujet , plante);
                 cu.getF();    
             }
@@ -64,31 +64,6 @@ public class ContactUser {
                 ToastBar.showErrorMessage("Sujet ne doit pas etre vide !!");
             }
         });
-        
-        /*
-        String[] Actions = { "Supprimer", "Resolu", "Fermer"};
-        MultiButton mb = new MultiButton("Action");
-        mb.addActionListener(e -> {
-        Dialog d = new Dialog();
-        d.setLayout(BoxLayout.y());
-        d.getContentPane().setScrollableY(true);
-        for(int i=0 ; i<Actions.length;i++){
-            MultiButton choix = new MultiButton(Actions[i]);
-            d.add(choix);
-            choix.addActionListener(ee -> {
-                mb.setTextLine1(mb.getTextLine1());
-                mb.setTextLine2(mb.getTextLine2());
-                mb.setIcon(mb.getIcon());
-                d.dispose();
-                mb.revalidate();
-            });
-        }
-        
-            d.showPopupDialog(mb);
-        });
-        
-        f.add(mb);
-        */
         
         f.add(titre);
         f.add(Subject);

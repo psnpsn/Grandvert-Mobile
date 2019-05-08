@@ -21,6 +21,7 @@ import com.codename1.ui.Component;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
@@ -453,29 +454,8 @@ private Container createGenericRendererContainerSujet() {
     share.setName("share");
     share.setFocusable(true);
     share.addPointerPressedListener((evt) -> {
-                //use your own facebook app identifiers here   
-                //These are used for the Oauth2 web login process on the Simulator.
-                String clientId = "644963628982950";
-                String redirectURI = "http://localhost/GrandVert/web/app_dev.php/";
-                String clientSecret = "824c8a5ab13296f163eb93a9e2bb4734";
-                Login fb = FacebookConnect.getInstance();
-                fb.setClientId(clientId);
-                fb.setRedirectURI(redirectURI);
-                fb.setClientSecret(clientSecret);
-                
-                //Sets a LoginCallback listener
-                fb.setCallback(new LoginCallback() {
-                });
-                //trigger the login if not already logged in
-                if(!fb.isUserLoggedIn()){
-                    fb.doLogin();
-                }else{
-                    //get the token and now you can query the facebook API
-                    String token = fb.getAccessToken().getToken();
-                    System.out.println(token);
-                    ShareButton sb = new ShareButton();
-                    sb.setTextToShare("http://localhost/GrandVert/web/app_dev.php/forum/sujet/consulter?id="+selected_sujet.getId());
-                }
+
+        Display.getInstance().execute("https://www.facebook.com/sharer/sharer.php?u="+"http://127.0.0.1/GrandVert/web/app_dev.php/forum/sujet/consulter?id="+selected_sujet.getId());
     });
     
     Container reactionc = BorderLayout.center(dislike).

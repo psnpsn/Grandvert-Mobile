@@ -10,12 +10,14 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.Entite.Sujet;
 import com.mycompany.Entite.Task;
 import com.mycompany.Entite.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +116,17 @@ public class ServiceSujet {
                 User u = new User(Integer.parseInt(user_id), user_nom, user_prenom, user_email, user_avatar);
                 e.setId((int) id);
                 e.setSujet_original(obj.get("sujetOriginal").toString());
+                
+                /*System.out.println("!!!!!!!!!!!!! : "+obj.get("dateOriginal").toString());
+                String datechaine= obj.get("dateOriginal").toString();
+                
+                String datee= datechaine.substring(datechaine.indexOf("timestamp=")+10, datechaine.length()-1);                 
+                System.out.println(datee);
+                String date = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date (1556563602*1000));
+                System.out.println(date);
+                
                 //e.setDate_original(obj.get("dateOriginal"));
+                */
                 e.setOpen(obj.get("open").toString());
                 e.setNbviews((int) nbviews);
                 e.setResolu(obj.get("resolu").toString());
