@@ -153,11 +153,10 @@ public class ListSujet {
                 });
                 Image icon = null; 
                 Container topBar = BorderLayout.east(new Label(icon));
-                //topBar.add(BorderLayout.SOUTH, new Label("Grand Vert", "SidemenuTagline")); 
                 topBar.setUIID("SideCommand");
 
             try {
-                tb.addCommandToLeftBar("", EncodedImage.create("/back.png"), (evt) -> {
+                tb.addCommandToLeftBar("", EncodedImage.create("/back.png").scaledEncoded(100, 100), (evt) -> {
                     PlanteCategorie ls =new PlanteCategorie(plante.getCategorie());
                     ls.getF();
                 });
@@ -246,14 +245,14 @@ private Object[] createGenericListCellRendererModelData() {
         data[i].put("Surname", p.getSujet_original());
 
         try {
-            data[i].put("image", new Label(EncodedImage.create("/user.jpeg").scaled(70, 70)));
+            data[i].put("image", new Label(EncodedImage.create("/user.jpeg").scaledEncoded(300, 300)));
             //data[i].put("action", new MultiButton("Action"));
             if(p.getResolu().equals("true"))
-                data[i].put("etatSujet", new Label(EncodedImage.create("/resolut.png").scaled(30, 30)));
+                data[i].put("etatSujet", new Label(EncodedImage.create("/resolut.png").scaled(100, 100)));
             else
-                data[i].put("etatSujet", new Label(EncodedImage.create("/nonresolut.png").scaled(30, 30)));
+                data[i].put("etatSujet", new Label(EncodedImage.create("/nonresolut.png").scaled(100, 100)));
             
-            data[i].put("nbView", new Label(p.getNbviews()+"",EncodedImage.create("/view.png")));
+            data[i].put("nbView", new Label(p.getNbviews()+"",EncodedImage.create("/view.png").scaledEncoded(100, 100)));
 
         } catch (IOException ex) {
         }

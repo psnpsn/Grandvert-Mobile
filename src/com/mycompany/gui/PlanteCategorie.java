@@ -70,7 +70,7 @@ public class PlanteCategorie {
                 topBar.setUIID("SideCommand");
 
             try {
-                tb.addCommandToLeftBar("", EncodedImage.create("/back.png"), (evt) -> {
+                tb.addCommandToLeftBar("", EncodedImage.create("/back.png").scaledEncoded(100, 100), (evt) -> {
                     Categorie ls =new Categorie();
                     ls.getF();
                 });
@@ -126,8 +126,8 @@ private Object[] createGenericListCellRendererModelData() {
         data[i] = new HashMap<>();
         data[i].put("Name", p.getNom());
         try {
-            data[i].put("image", new Label(EncodedImage.create("/plante2.jpg").scaled(70, 50)));
-            data[i].put("icon", new Label(ss.getList(p.getId()).size()+"", EncodedImage.create("/comment.png")));
+            data[i].put("image", new Label(EncodedImage.create("/plante2.jpg").scaled(300, 300)));
+            data[i].put("icon", new Label(ss.getList(p.getId()).size()+"", EncodedImage.create("/comment.png").scaledEncoded(100, 100)));
         } catch (IOException ex) {
         }
 

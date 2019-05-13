@@ -112,13 +112,13 @@ public class ConsulterSujet {
         f = new Form("Réponse");
         if(sujet.getResolu().equals("true"))
             try {
-                ImgEtatSujet= EncodedImage.create("/sujet_resolut.png");
+                ImgEtatSujet= (EncodedImage) EncodedImage.create("/sujet_resolut.png").scaled(1600, 200);
                 f.add(ImgEtatSujet);
         } catch (IOException ex) {
         }
         
         if(sujet.getOpen().equals("false")){
-            etatFermer = new Label("Sujet Fermer !!");
+            etatFermer = new Label("Sujet Fermer !!                                  ");
             etatFermer.getAllStyles().setFgColor(0xef5350);
             etatFermer.setSize(new Dimension(30, 30));
             f.add(etatFermer);
@@ -247,7 +247,7 @@ public class ConsulterSujet {
                 topBar.setUIID("SideCommand");
                 
             try {
-                tb.addCommandToLeftBar("", EncodedImage.create("/back.png"), (evt) -> {
+                tb.addCommandToLeftBar("", EncodedImage.create("/back.png").scaledEncoded(100, 100), (evt) -> {
                     ListSujet ls =new ListSujet(plante);
                     ls.getF();
                 });
@@ -285,18 +285,6 @@ private Container createGenericRendererContainer() {
     
     ServiceReponse sr2 = new ServiceReponse();
     ArrayList<Reponse> listreponse = new ArrayList<>(sr2.getList(selected_sujet.getId()));
-/*    
-    ComboBox<String> cm = new ComboBox<>("Supprimer", "Resolu", "Fermer");
-    cm.setFocusable(true);
-    cm.setName("action");
-    cm.addActionListener((evt) -> {  
-        sr2.supprimerReponse(listreponse.get(list.getSelectedIndex()));
-        ToastBar.showMessage("La réponse a été supprimer avec succés", FontImage.MATERIAL_INFO);
-
-        ConsulterSujet cs = new ConsulterSujet(selected_sujet , selected_plante);
-        cs.getF();
-    });
- */   
     
     Label like = new Label("like");
 
@@ -365,7 +353,7 @@ private Object[] createGenericListCellRendererModelData() {
         data[i].put("Surname", p.getReponse_original());
 
         try {
-            data[i].put("image", new Label(EncodedImage.create("/user.jpeg").scaled(70, 70)));
+            data[i].put("image", new Label(EncodedImage.create("/user.jpeg").scaled(300, 300)));
             ServiceReactionReponse srr = new ServiceReactionReponse();
             
             int nbLike =0;
@@ -377,13 +365,13 @@ private Object[] createGenericListCellRendererModelData() {
                     nbDisLike++;
             }
             
-            Label like = new Label(nbLike+"" ,EncodedImage.create("/Like.png").scaled(20, 20));
+            Label like = new Label(nbLike+"" ,EncodedImage.create("/Like.png").scaled(90, 90));
             
-            Label dislike = new Label(nbDisLike+"" ,EncodedImage.create("/Deslike2.png").scaled(20, 20));
+            Label dislike = new Label(nbDisLike+"" ,EncodedImage.create("/Deslike2.png").scaled(90, 90));
 
             data[i].put("like", like);
             data[i].put("dislike", dislike);
-            data[i].put("contact", new Label(EncodedImage.create("/email.png")));
+            data[i].put("contact", new Label(EncodedImage.create("/email.png").scaled(120, 100)));
 
         } catch (IOException ex) {
         }
@@ -486,7 +474,7 @@ private Object[] createGenericListCellRendererModelDataSujet() {
         data[0].put("Surname", p.getSujet_original());
 
         try {
-            Label image = new Label(EncodedImage.create("/user.jpeg").scaled(70, 70));
+            Label image = new Label(EncodedImage.create("/user.jpeg").scaled(300, 300));
             data[0].put("image",image );
             ServiceReactionSujet srr = new ServiceReactionSujet();
             
@@ -499,13 +487,13 @@ private Object[] createGenericListCellRendererModelDataSujet() {
                     nbDisLike++;
             }
             
-            Label like = new Label(nbLike+"" ,EncodedImage.create("/Like.png").scaled(20, 20));
+            Label like = new Label(nbLike+"" ,EncodedImage.create("/Like.png").scaled(90, 90));
                       
-            Label dislike = new Label(nbDisLike+"" ,EncodedImage.create("/Deslike2.png").scaled(20, 20));
+            Label dislike = new Label(nbDisLike+"" ,EncodedImage.create("/Deslike2.png").scaled(90, 90));
   
             data[0].put("like", like);
             data[0].put("dislike", dislike);
-            data[0].put("share", new Label(EncodedImage.create("/fb.png").scaled(70, 30)));
+            data[0].put("share", new Label(EncodedImage.create("/fb.png").scaled(180, 100)));
             
             ComboBox<String> cm = new ComboBox<>();
             cm.setFocusable(true);

@@ -79,7 +79,7 @@ public class ContactUser {
                 topBar.setUIID("SideCommand");
 
         try {
-            tb.addCommandToLeftBar("", EncodedImage.create("/back.png"), (evt) -> {
+            tb.addCommandToLeftBar("", EncodedImage.create("/back.png").scaledEncoded(100, 100), (evt) -> {
                 HomeForm f =new HomeForm();
                 f.getHi();
             });

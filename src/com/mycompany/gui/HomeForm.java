@@ -51,11 +51,11 @@ public class HomeForm {
         EncodedImage IconPreservation = null;
         EncodedImage IconEvent = null;
         try {
-            IconForum = EncodedImage.create("/Forum3.png");
-            IconPlante = EncodedImage.create("/Plante.png");
-            IconJardin = EncodedImage.create("/jardin.png");
-            IconPreservation = EncodedImage.create("/Forum3.png");
-            IconEvent = EncodedImage.create("/Event.png");
+            IconForum = EncodedImage.create("/Forum3.png").scaledEncoded(300, 300);
+            IconPlante = EncodedImage.create("/Plante.png").scaledEncoded(300, 300);
+            IconJardin = EncodedImage.create("/jardin.png").scaledEncoded(300, 300);
+            IconPreservation = EncodedImage.create("/Forum3.png").scaledEncoded(300, 300);
+            IconEvent = EncodedImage.create("/Event.png").scaledEncoded(300, 300);
         } catch (IOException ex) {
         }
         Label labelForum = new Label(IconForum);
